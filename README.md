@@ -1,19 +1,19 @@
 # MASM86
 
-Installation
-  VSCODE
-  DOSBOX -exe file uploaded
+Installation <br/>
+  VSCODE <br/>
+  DOSBOX -exe file uploaded <br/>
 
-Execution
-  clone repo to c/d drive directly
-  install dosbox
+Execution<br/>
+  clone repo to c/d drive directly<br/>
+  install dosbox<br/>
 
-open dosbox terminal and run
-  mount d d:/8086
-  d:
-  masm sum8.asm
-  link sum8.obj
-  debug sum8.exe
-  -g
+open dosbox terminal and run<br/>
+  mount d d:/8086<br/>
+  d:<br/>
+  masm sum8.asm<br/>
+  link sum8.obj<br/>
+  debug sum8.exe<br/>
+  -g<br/>
 
-All outputs are included as png files
+All outputs are included as png files<br/>
