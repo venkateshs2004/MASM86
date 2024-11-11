@@ -6,6 +6,7 @@ DATA SEGMENT
     MSG1 DB 0AH,0DH,"ENTER DIGIT :$"
     MSG2 DB 0AH,0DH,"NUMBER OF 1'S :$"
     MSG3 DB 0AH,0DH,"NUMBER OF 0'S :$"
+    NUMBUFFER DB 5 DUP('$')
 DATA ENDS
 
 CODE SEGMENT
@@ -37,39 +38,34 @@ COUNT:DEC DL
     INT 21H  
     SUB BH,BL
     MOV CX, 3030H
-    cmp BH, 0AH
-    JB DIGIT1
-    ADD BH, 7H  ; Convert Letters to ASCII
-DIGIT1:ADD BH, '0'
-    CMP BH, 47H
-    JNE CONT1  ;Incase of 10H
-    INC CH
-    MOV BH,'0'
-CONT1:MOV DL, CH
-    MOV AH, 02H
-    INT 21H   ; Convert digit to ASCII
-    MOV DL, BH
-    MOV AH, 02H
-    INT 21H       ; Display 1'S
+    MOV CX,10
+DIGIT1:XOR AX, AX
+    MOV AL, BH
+    DIV CL
+    ADD AL,'0'
+    MOV [NUMBUFFER],AL
+    MOV DL,AH
+    ADD DL,'0'
+    MOV [NUMBUFFER+1],DL
+    LEA DX,NUMBUFFER
+    MOV AH,09H
+    INT 21H     ; Display 1'S
 
     LEA DX, MSG3
     MOV AH, 09H
     INT 21H  
-    cmp BL, 0AH
-    JB DIGIT0
-    ADD BL, 7H  ; Convert Letters to ASCII
-DIGIT0:ADD BL, '0' ; convert digit to ASCII
-    CMP BL, 47H
-    JNE CONT0 ; Incase of 10H
-    INC CL
-    MOV BL,'0'
-CONT0:MOV DL, CL
-    MOV AH, 02H
-    INT 21H 
-    MOV DL, BL
-    MOV AH, 02H
-    INT 21H      ; Display 0'S
 
+DIGIT0:XOR AX, AX
+    MOV AL, BL
+    DIV CL
+    ADD AL,'0'
+    MOV [NUMBUFFER],AL
+    MOV DL,AH
+    ADD DL,'0'
+    MOV [NUMBUFFER+1],DL
+    LEA DX,NUMBUFFER
+    MOV AH,09H
+    INT 21H 
 
     MOV AH, 4CH
     INT 21H
